@@ -46,6 +46,25 @@ With the prompt literally **"reply OK, do not open any files,"** Grok still uplo
 [+] full history recovered: N commits
 ```
 
+## Deny blocks reads, not the upload
+
+A common pushback is *"you told it not to read the file — this is on you."* It
+isn't. **A permission deny stops the agent READING a file into the chat; it does
+NOT stop the whole-repo git-bundle upload.**
+
+- CLI `--deny "Read(secret.txt)"` -> the agent refuses to read it (`blocked by a
+  permission policy`). But the **same tracked file is still in the uploaded git
+  bundle** (`POST /v1/storage`). `git clone` the captured body and it's there.
+- A settings-file deny (`.claude/settings.json` or `.grok/settings.json`,
+  `{"permissions":{"deny":["Read(secret.txt)"]}}`) also blocks the read — **but
+  `--always-approve` bypasses it.** Pattern must be `Read(file)`/`Read(**/file)`,
+  not `Read(./file)`.
+- The **only** thing that keeps a file out of the bundle is **gitignoring** it
+  (the bundle carries tracked files only).
+
+Reproducible artifacts + transcripts + the two captured bundles are in
+[`evidence/`](evidence/).
+
 ## Ethics / scope
 
 - Everything runs locally against **your own** traffic. The "secrets" are fake canary strings.
