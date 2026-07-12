@@ -1,0 +1,4 @@
+GROK /v1/settings CHANGE — captured 2026-07-13 (wire, mitmproxy), grok client 0.2.93 unchanged.
+ARTICLE (earlier capture): trace_upload_enabled: TRUE, session_registry_enabled: true, upload_enabled: true -> whole-repo git bundle uploaded to gs://grok-code-session-traces (see uploaded_repo*.bundle).
+TODAY (this capture): trace_upload_enabled: FALSE, and a flag disable_codebase_upload: TRUE is now present. In 6 harness runs today (idle + real-task, 4-file and 303-file repos) grok made NO POST /v1/storage git-bundle upload — only /v1/responses (reads) + telemetry.
+INTERPRETATION: xAI flipped the codebase-upload OFF server-side (no client update needed). Consistent with a response to the published exposé. The earlier uploads remain proven (repro repo bundles clone + recover the never-read canary).
