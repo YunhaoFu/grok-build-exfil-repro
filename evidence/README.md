@@ -3,6 +3,14 @@
 Wire-captured proof (grok 0.2.93) that permission-deny controls only what the
 model **reads**, while the whole-repo **git-bundle upload happens regardless**.
 
+> **Update 2026-07-13 (grok 0.2.99):** the bundle channel is off on this account
+> (`trace_upload_enabled: false`), but `--deny "Read(file)"` is **still bypassable** —
+> the agent recovers the denied file from the git object store by blob OID and the
+> content leaves via `/v1/responses`. See
+> [`deny_bypass_git_object_store_0.2.99.md`](deny_bypass_git_object_store_0.2.99.md)
+> (+ [`deny_bypass_transcript_0.2.99.txt`](deny_bypass_transcript_0.2.99.txt)).
+> Same end result as the 0.2.93 finding below, different channel.
+
 ## Run it yourself
 
 Both `.bundle` files are the exact bytes Grok POSTed to `/v1/storage`. Clone one
